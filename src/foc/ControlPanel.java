@@ -1,11 +1,21 @@
 package foc;
 
-public class ControlPanel {
+import java.awt.GridBagLayout;
+import javax.swing.JButton;
+import javax.swing.JPanel;
 
-    private int width = 400;
-    private int height = 400;
+public class ControlPanel extends JPanel{
 
-    public int getWidth() {return width;}
-    public int getHeight() {return height;}
+    public ControlPanel() {
+        
+        
+        this.setSize( 200, 600 );
+        this.setLayout( new GridBagLayout() ); 
+        
+        JButton bttn1 = new JButton();
+        
+        this.add(bttn1);
+        
+    }
     
 }

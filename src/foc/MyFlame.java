@@ -1,59 +1,67 @@
 package foc;
 
 import java.awt.Color;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
 import javax.swing.*;
 
 public class MyFlame extends JFrame {
     
-    ControlPanel controlPanel = new ControlPanel();
-    
     private int width;
     private int height;
+
+    GridBagConstraints c;
     
-    FlamePalete flamePalete;
     
     public MyFlame() {
-        //APPLY CONTROL PANEL
-        setParametrizables();
+        width = 600;
+        height = 600;
         
-        //SET WINDOW PARAMS
-        this.setVisible(true);
-        this.setSize(width,height);
-        this.setResizable(false);
-        this.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+        setWindowParams();
+                
         
-        //CREAT FLAME PALETE
-        setFlamePalete();
+        Flame flame = new Flame( 400, 400 );
+        flame.setFlamePalete( createFlamePalete() );
         
-        //CREATE RUNNABLE ELEMENTS
-        Flame flame = new Flame( controlPanel, flamePalete );
-        Viewer viewer = new Viewer( controlPanel, flame );
         
-        //ADD VIEWER
-        this.add(viewer);
+        Viewer viewer = new Viewer( flame );
+        c = new GridBagConstraints();
+        c.gridx = 1;
+        c.gridwidth = 2;
+        this.add(viewer,c);
         
-        //RUN FIRE
-        Thread flameThread = new Thread( flame );
-        flameThread.start();
+        ControlPanel cp = new ControlPanel();
+        c = new GridBagConstraints();
+        c.gridx = 0;
+        c.gridwidth = 1;
+        this.add(cp,c);
         
-        //RUN CANVAS
-        Thread ViewerThread = new Thread( viewer );
-        ViewerThread.start();
+
+        new Thread( flame ).start();
+        
+
+        new Thread( viewer ).start();
         
     }
       
-    public void setFlamePalete() {
-        flamePalete = new FlamePalete();
+    private FlamePalete createFlamePalete() {
+        FlamePalete flamePalete = new FlamePalete();
         
         flamePalete.addTargetColor( new TargetColor(255, Color.yellow) );
         flamePalete.addTargetColor( new TargetColor(190, Color.orange) );
         flamePalete.addTargetColor( new TargetColor(100, Color.red) );
         flamePalete.addTargetColor( new TargetColor(0, Color.black) );
+        return flamePalete;
     }
     
-    private void setParametrizables() {
-        width = controlPanel.getWidth();
-        height = controlPanel.getHeight();
+    private void setWindowParams() {
+    
+        this.setVisible( true );
+        this.setSize( width, height );
+        this.setLayout( new GridBagLayout() );        
+        this.setDefaultCloseOperation( WindowConstants.EXIT_ON_CLOSE );
+    
+    
     }
     
     public static void main(String[] args) {

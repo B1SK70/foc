@@ -5,45 +5,48 @@ import static java.lang.Thread.sleep;
 
 public class Flame extends BufferedImage implements Runnable {
 
-    private int width;
-    private int height;
+    private int w;
+    private int h;
     private int[][] heatMap;
     private FlamePalete flamePalete;
 
-    public Flame(ControlPanel controlPanel, FlamePalete flamePalete) {
-        //SET PARAMETRIZABLES
-        super(controlPanel.getWidth(), controlPanel.getHeight(), BufferedImage.TYPE_INT_ARGB);
-        setParametrizables(controlPanel);
-        this.flamePalete = flamePalete;
-        
-        //INITIALIZE HEATMAP
-        heatMap = new int[width][height];
+    public Flame( int w, int h ) {
+        super(w, h, BufferedImage.TYPE_INT_ARGB);
+        this.w = w;
+        this.h = h;
+                     
+        heatMap = new int[w][h];
+
     }
 
-    //IMAGE GETTER
+    public void setFlamePalete(FlamePalete flamePalete) {
+        this.flamePalete = flamePalete;
+    }
+    
+    
     public BufferedImage getFlameImage() {
         return this;
     }
 
-    //BOTTOM IGNITION
+
     private void sparks() {
-        for (int x = 0; x < width; x++) {
+        for (int x = 0; x < w; x++) {
             if (((int) (Math.random() * 10 + 1)) < 5) {
-                heatMap[height - 1][x] = 255;
+                heatMap[h - 1][x] = 255;
             }
         }
     }
 
-    //EXPAND EXISTING HEAT
+
     private void heatDispersion() {
-        int[][] newHeatMapStatus = new int[width][height];
+        int[][] newHeatMapStatus = new int[w][h];
 
-        for (int x = 1; x < width - 1; x++) {
-            for (int y = 1; y < height - 2; y++) {
+        for (int x = 1; x < w - 1; x++) {
+            for (int y = 1; y < h - 2; y++) {
 
-                //IF ( HEAT > 0 )  APPLY HEAT LOSS
+                //IF ( HEAT > 0 )
                 if ((int) ((heatMap[x + 1][y - 1] + heatMap[x + 1][y] + heatMap[x + 1][y + 1] + (heatMap[x][y] * 0.3)) / 3.3 - 1) > 0) {
-                    newHeatMapStatus[x][y] = (int) ((heatMap[x + 1][y - 1] + heatMap[x + 1][y] + heatMap[x + 1][y + 1] + (heatMap[x][y] * 0.3)) / 3.3 - 1);
+                    newHeatMapStatus[x][y] = (int) ((heatMap[x + 1][y - 1] + heatMap[x + 1][y] + heatMap[x + 1][y + 1] + (heatMap[x][y] * 0.3)) / 3.3 -1);
                 } else  newHeatMapStatus[x][y] = 0;
 
             }
@@ -51,12 +54,12 @@ public class Flame extends BufferedImage implements Runnable {
         heatMap = newHeatMapStatus;
     }
 
-    //RANDOM COLD SPOTS TO IRREGULARIZE HEAT LOSS
+
     private void coldSparks() {
         for (int x = 200; x < 385; x++) {
-            for (int y = 2; y < width - 2; y++) {
+            for (int y = 2; y < w - 2; y++) {
 
-                if (((int) (Math.random() * 100)) < 1) {
+                if (((int) (Math.random() * 150)) < 1) {
                     heatMap[x][y] = 0;
                 }
 
@@ -64,10 +67,11 @@ public class Flame extends BufferedImage implements Runnable {
         }
     }
 
-    //APPLY HEATMAP TO IMAGE PIXELS
+    
+
     private void updateImage() {
-        for (int x = 0; x < width; x++) {
-            for (int y = 0; y < height; y++) {
+        for (int x = 0; x < w; x++) {
+            for (int y = 0; y < h; y++) {
                 
                 this.setRGB(y, x, flamePalete.getColor(heatMap[x][y]));
 
@@ -78,15 +82,8 @@ public class Flame extends BufferedImage implements Runnable {
     private void fireTick() {
         sparks();
         heatDispersion();
-        coldSparks();
+        //coldSparks();
         updateImage();
-    }
-
-    //IMPORT PARAMETRIZABLE VALUES
-    private void setParametrizables(ControlPanel controlPanel) {
-        width = controlPanel.getWidth();
-        height = controlPanel.getHeight();
-
     }
 
     @Override

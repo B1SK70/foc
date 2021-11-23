@@ -7,29 +7,24 @@ import static java.lang.Thread.sleep;
 
 public class Viewer extends Canvas implements Runnable{
 
-    private int width;
-    private int height;
+    private int w;
+    private int h;
     private Flame flame;
     
     
-    public Viewer(ControlPanel controlPanel, Flame flame) {
-        setParametrizables(controlPanel);
+    public Viewer( Flame flame) {
+        this.w = flame.getWidth();
+        this.h = flame.getHeight();
         this.flame = flame;
         
         setBackground(Color.black);
-        setSize(width, height);
-        
+        setSize(w, h);
     }
     
-    public void paint(Graphics g) {
-        g.drawImage(flame.getFlameImage(),0, -40, null);
+    public void paint(Graphics g) {        
+        g.drawImage(flame.getFlameImage(),0, 0, null);
     }
-        
-    private void setParametrizables(ControlPanel controlPanel) {
-        this.width = controlPanel.getWidth();
-        this.height = controlPanel.getHeight();
-    }
-    
+
     @Override
     public void run() {
         while (true) {
