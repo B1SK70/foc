@@ -11,6 +11,7 @@ public class MyFlame extends JFrame {
     private int height;
 
     GridBagConstraints c;
+    private Flame flame;
     
     
     public MyFlame() {
@@ -20,28 +21,33 @@ public class MyFlame extends JFrame {
         setWindowParams();
                 
         
-        Flame flame = new Flame( 400, 400 );
+        flame = new Flame( 600, 600 );
         flame.setFlamePalete( createFlamePalete() );
         
+               
+        ControlPanel cp1 = new ControlPanel(this);
+        c = new GridBagConstraints();
+        c.gridx = 0;
+        this.add(cp1,c);
         
         Viewer viewer = new Viewer( flame );
         c = new GridBagConstraints();
         c.gridx = 1;
-        c.gridwidth = 2;
+        c.gridwidth = 1;
+        c.weightx = 1;
         this.add(viewer,c);
         
-        ControlPanel cp = new ControlPanel();
-        c = new GridBagConstraints();
-        c.gridx = 0;
-        c.gridwidth = 1;
-        this.add(cp,c);
         
-
         new Thread( flame ).start();
         
 
         new Thread( viewer ).start();
         
+        this.pack();
+    }
+    
+    public void setFireMsSpeed(int ms){
+        flame.setFireMsSpeed(ms);
     }
       
     private FlamePalete createFlamePalete() {
@@ -57,7 +63,6 @@ public class MyFlame extends JFrame {
     private void setWindowParams() {
     
         this.setVisible( true );
-        this.setSize( width, height );
         this.setLayout( new GridBagLayout() );        
         this.setDefaultCloseOperation( WindowConstants.EXIT_ON_CLOSE );
     

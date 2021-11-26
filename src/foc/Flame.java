@@ -10,6 +10,12 @@ public class Flame extends BufferedImage implements Runnable {
     private int[][] heatMap;
     private FlamePalete flamePalete;
 
+    //Parametrizables
+    private double heatLoss = 1.5;
+    private int sparks = 65;
+    private int fireMsSpeed = 25;
+    private double airHeatConservation = 0.3; 
+    
     public Flame( int w, int h ) {
         super(w, h, BufferedImage.TYPE_INT_ARGB);
         this.w = w;
@@ -28,15 +34,18 @@ public class Flame extends BufferedImage implements Runnable {
         return this;
     }
 
+    public void setFireMsSpeed(int ms){
+        fireMsSpeed = ms;
+    }
+    
 
     private void sparks() {
         for (int x = 0; x < w; x++) {
-            if (((int) (Math.random() * 10 + 1)) < 5) {
+            if (((int) (Math.random() * 100 + 1)) < sparks) {
                 heatMap[h - 1][x] = 255;
             }
         }
     }
-
 
     private void heatDispersion() {
         int[][] newHeatMapStatus = new int[w][h];
@@ -45,29 +54,14 @@ public class Flame extends BufferedImage implements Runnable {
             for (int y = 1; y < h - 2; y++) {
 
                 //IF ( HEAT > 0 )
-                if ((int) ((heatMap[x + 1][y - 1] + heatMap[x + 1][y] + heatMap[x + 1][y + 1] + (heatMap[x][y] * 0.3)) / 3.3 - 1) > 0) {
-                    newHeatMapStatus[x][y] = (int) ((heatMap[x + 1][y - 1] + heatMap[x + 1][y] + heatMap[x + 1][y + 1] + (heatMap[x][y] * 0.3)) / 3.3 -1);
+                if ((int) ((heatMap[x + 1][y - 1] + heatMap[x + 1][y] + heatMap[x + 1][y + 1] + (heatMap[x][y] * airHeatConservation)) / (3+airHeatConservation) - 1) > 0) {
+                    newHeatMapStatus[x][y] = (int) ((heatMap[x + 1][y - 1] + heatMap[x + 1][y] + heatMap[x + 1][y + 1] + (heatMap[x][y] * airHeatConservation)) / (3+airHeatConservation) -heatLoss);
                 } else  newHeatMapStatus[x][y] = 0;
 
             }
         }
         heatMap = newHeatMapStatus;
-    }
-
-
-    private void coldSparks() {
-        for (int x = 200; x < 385; x++) {
-            for (int y = 2; y < w - 2; y++) {
-
-                if (((int) (Math.random() * 150)) < 1) {
-                    heatMap[x][y] = 0;
-                }
-
-            }
-        }
-    }
-
-    
+    }    
 
     private void updateImage() {
         for (int x = 0; x < w; x++) {
@@ -82,7 +76,6 @@ public class Flame extends BufferedImage implements Runnable {
     private void fireTick() {
         sparks();
         heatDispersion();
-        //coldSparks();
         updateImage();
     }
 
@@ -93,7 +86,7 @@ public class Flame extends BufferedImage implements Runnable {
             fireTick();
                     
             try {
-                sleep(30);
+                sleep(fireMsSpeed);
             } catch (Exception e) {
                 System.out.println("Flame class" + e);
             }
