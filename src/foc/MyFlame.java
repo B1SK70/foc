@@ -34,7 +34,6 @@ public class MyFlame extends JFrame {
         c = new GridBagConstraints();
         c.gridx = 1;
         c.gridwidth = 1;
-        c.weightx = 1;
         this.add(viewer,c);
         
         
@@ -48,6 +47,18 @@ public class MyFlame extends JFrame {
     
     public void setFireMsSpeed(int ms){
         flame.setFireMsSpeed(ms);
+    }
+    
+    public void setHeatLoss(int hl){
+        flame.setHeatLoss(hl);
+    }
+    
+    public void setSparks(int sprks){
+        flame.setSparks(sprks);
+    }
+    
+    public void setAirHeatConservation(int cnsvtn){
+        flame.setAirHeatConservation(cnsvtn);
     }
       
     private FlamePalete createFlamePalete() {

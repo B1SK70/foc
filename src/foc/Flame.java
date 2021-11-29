@@ -11,10 +11,10 @@ public class Flame extends BufferedImage implements Runnable {
     private FlamePalete flamePalete;
 
     //Parametrizables
-    private double heatLoss = 1.5;
     private int sparks = 65;
-    private int fireMsSpeed = 25;
+    private double heatLoss = 1.5;
     private double airHeatConservation = 0.3; 
+    private int fireMsSpeed = 25;
     
     public Flame( int w, int h ) {
         super(w, h, BufferedImage.TYPE_INT_ARGB);
@@ -38,6 +38,17 @@ public class Flame extends BufferedImage implements Runnable {
         fireMsSpeed = ms;
     }
     
+    public void setHeatLoss(int hl){
+        heatLoss = hl * 0.025 ;
+    }
+    
+    public void setSparks(int sprks){
+        sparks = sprks;
+    }
+    
+    public void setAirHeatConservation (int cnsvtn){
+        airHeatConservation = cnsvtn * 0.01;
+    }
 
     private void sparks() {
         for (int x = 0; x < w; x++) {
