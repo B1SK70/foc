@@ -3,10 +3,13 @@ package foc;
 import javax.swing.*;
 import java.awt.*;
 import javax.swing.event.*;
+import java.awt.event.*;
 
 public class ControlPanel extends JPanel{
 
     GridBagConstraints c;
+    
+    JButton pauseBtn;
     
     public ControlPanel(MyFlame programa) {
         super(new GridBagLayout());
@@ -15,13 +18,41 @@ public class ControlPanel extends JPanel{
         this.setBackground(Color.gray);
         
                 
+        // PAUSE FUNCTION
+        pauseBtn = new JButton(); 
+        pauseBtn.setPreferredSize(new Dimension(120, 40)); 
+        pauseBtn.setText("PAUSE");
+        pauseBtn.setVisible(true);
+        pauseBtn.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                programa.switchPauseState();
+                
+                if ( pauseBtn.getText().equals("PAUSE") ) {
+                    pauseBtn.setText("CONTINUE");
+                } else if ( pauseBtn.getText().equals("CONTINUE") ) {
+                    pauseBtn.setText("PAUSE");
+                }
+                
+            }
+        });
+        
+        c = new GridBagConstraints();
+        c.gridx = 1;
+        c.gridy = 0;
+        c.gridheight = 1;
+         
+        this.add(pauseBtn,c);
+        
+        // ---------------
+        
         //SPARKS
         JLabel sparksLb = new JLabel("Sparks  (rec: 65)");
         sparksLb.setPreferredSize(new Dimension(160, 50));
         
         c = new GridBagConstraints();
         c.gridx = 1;
-        c.gridy = 0;
+        c.gridy = 1;
         c.gridheight = 1;
         
         this.add(sparksLb,c);
@@ -40,7 +71,7 @@ public class ControlPanel extends JPanel{
         
         c = new GridBagConstraints();
         c.gridx = 1;
-        c.gridy = 1;
+        c.gridy = 2;
         c.gridheight = 2;
         
         this.add(sparks,c);
@@ -54,7 +85,7 @@ public class ControlPanel extends JPanel{
         
         c = new GridBagConstraints();
         c.gridx = 1;
-        c.gridy = 3;
+        c.gridy = 4;
         c.gridheight = 1;
         
         this.add(heatLossLb,c);
@@ -73,7 +104,7 @@ public class ControlPanel extends JPanel{
         
         c = new GridBagConstraints();
         c.gridx = 1;
-        c.gridy = 4;
+        c.gridy = 5;
         c.gridheight = 2;
         
         this.add(heatLoss,c);
@@ -87,7 +118,7 @@ public class ControlPanel extends JPanel{
         
         c = new GridBagConstraints();
         c.gridx = 1;
-        c.gridy = 6;
+        c.gridy = 7;
         c.gridheight = 1;
         
         this.add(airHeatConservationLb,c);
@@ -105,7 +136,7 @@ public class ControlPanel extends JPanel{
         });
         c = new GridBagConstraints();
         c.gridx = 1;
-        c.gridy = 7;
+        c.gridy = 8;
         c.gridheight = 2;
         
         this.add(residualHeat,c);
@@ -119,7 +150,7 @@ public class ControlPanel extends JPanel{
         
         c = new GridBagConstraints();
         c.gridx = 1;
-        c.gridy = 9;
+        c.gridy = 10;
         c.gridheight = 1;
         
         this.add(msSpedLb,c);
@@ -137,19 +168,19 @@ public class ControlPanel extends JPanel{
         });
         c = new GridBagConstraints();
         c.gridx = 1;
-        c.gridy = 10;
+        c.gridy = 11;
         c.gridheight = 2;
         
         this.add(framesPerSecond,c);
         
         
                 
-                
+                        
 //        JButton bttn1 = new JButton();
 //        bttn1.setPreferredSize(new Dimension(160, 40));
 //        bttn1.addActionListener(new ActionListener() {
 //            public void actionPerformed(ActionEvent e) {
-//            programa.setFireMsSpeed();	
+//            programa.switchPauseState();	
 //            }	
 //        });
 //        

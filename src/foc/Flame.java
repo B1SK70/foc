@@ -10,6 +10,8 @@ public class Flame extends BufferedImage implements Runnable {
     private int[][] heatMap;
     private FlamePalete flamePalete;
 
+    boolean paused = false;
+    
     //Parametrizables
     private int sparks = 65;
     private double heatLoss = 1.5;
@@ -44,6 +46,10 @@ public class Flame extends BufferedImage implements Runnable {
     
     public void setSparks(int sprks){
         sparks = sprks;
+    }
+    
+    public void switchPauseState() {
+        paused = !paused;
     }
     
     public void setAirHeatConservation (int cnsvtn){
@@ -94,7 +100,7 @@ public class Flame extends BufferedImage implements Runnable {
     public void run() {
         while (true) {
             
-            fireTick();
+            if (!paused) fireTick();
                     
             try {
                 sleep(fireMsSpeed);

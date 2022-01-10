@@ -57,6 +57,10 @@ public class MyFlame extends JFrame {
         flame.setSparks(sprks);
     }
     
+    public void switchPauseState(){
+        flame.switchPauseState();
+    }
+    
     public void setAirHeatConservation(int cnsvtn){
         flame.setAirHeatConservation(cnsvtn);
     }
@@ -65,8 +69,8 @@ public class MyFlame extends JFrame {
         FlamePalete flamePalete = new FlamePalete();
         
         flamePalete.addTargetColor( new TargetColor(255, Color.yellow) );
-        flamePalete.addTargetColor( new TargetColor(190, Color.orange) );
-        flamePalete.addTargetColor( new TargetColor(100, Color.red) );
+        flamePalete.addTargetColor( new TargetColor(180, Color.orange) );
+        flamePalete.addTargetColor( new TargetColor(90, Color.red) );
         flamePalete.addTargetColor( new TargetColor(0, Color.black) );
         return flamePalete;
     }
@@ -76,7 +80,6 @@ public class MyFlame extends JFrame {
         this.setVisible( true );
         this.setLayout( new GridBagLayout() );        
         this.setDefaultCloseOperation( WindowConstants.EXIT_ON_CLOSE );
-    
     
     }
     
