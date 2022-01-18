@@ -12,7 +12,7 @@ public class MyFlame extends JFrame {
 
     GridBagConstraints c;
     private Flame flame;
-    
+    private FlamePalete FP = createFlamePalete();
     
     public MyFlame() {
         width = 600;
@@ -21,11 +21,11 @@ public class MyFlame extends JFrame {
         setWindowParams();
                 
         
-        flame = new Flame( 600, 600 );
-        flame.setFlamePalete( createFlamePalete() );
+        flame = new Flame( width, height );
+        flame.setFlamePalete( FP );
         
                
-        ControlPanel cp1 = new ControlPanel(this);
+        ControlPanel cp1 = new ControlPanel(this, FP);
         c = new GridBagConstraints();
         c.gridx = 0;
         this.add(cp1,c);
@@ -38,7 +38,6 @@ public class MyFlame extends JFrame {
         
         
         new Thread( flame ).start();
-        
 
         new Thread( viewer ).start();
         
@@ -65,16 +64,30 @@ public class MyFlame extends JFrame {
         flame.setAirHeatConservation(cnsvtn);
     }
       
+    public void restartFlame() {
+        flame.restart();
+    }
+    
+    public FlamePalete getColorPalete() {
+        return FP;
+    }
+    
+    public void removeTargetColor(int i) {
+        FP = getColorPalete();
+        FP.removeTargetColor(i);
+    }
+    
     private FlamePalete createFlamePalete() {
         FlamePalete flamePalete = new FlamePalete();
         
-        flamePalete.addTargetColor( new TargetColor(255, Color.yellow) );
-        flamePalete.addTargetColor( new TargetColor(180, Color.orange) );
-        flamePalete.addTargetColor( new TargetColor(90, Color.red) );
-        flamePalete.addTargetColor( new TargetColor(0, Color.black) );
+        flamePalete.addTargetColor( new TargetColor(255, new Color(255, 255, 255, 255) ) );
+        flamePalete.addTargetColor( new TargetColor(170, new Color(255, 165, 0, 255) ) );
+        flamePalete.addTargetColor( new TargetColor(90, new Color(255, 0, 0, 255)) );
+        flamePalete.addTargetColor( new TargetColor(0, new Color(0, 0, 0, 0)) );
+        
         return flamePalete;
     }
-    
+        
     private void setWindowParams() {
     
         this.setVisible( true );

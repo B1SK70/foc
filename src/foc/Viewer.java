@@ -24,7 +24,7 @@ public class Viewer extends Canvas implements Runnable{
     public void paint(Graphics g) {        
         g.drawImage(flame.getFlameImage(),0, 0, null);
     }
-
+    
     @Override
     public void run() {
         while (true) {

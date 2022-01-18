@@ -1,5 +1,6 @@
 package foc;
 
+import java.awt.Color;
 import java.awt.image.BufferedImage;
 import static java.lang.Thread.sleep;
 
@@ -55,6 +56,11 @@ public class Flame extends BufferedImage implements Runnable {
     public void setAirHeatConservation (int cnsvtn){
         airHeatConservation = cnsvtn * 0.01;
     }
+    
+    public void restart() {
+        heatMap = new int[w][h];
+        updateImage();
+    }
 
     private void sparks() {
         for (int x = 0; x < w; x++) {
@@ -66,7 +72,7 @@ public class Flame extends BufferedImage implements Runnable {
 
     private void heatDispersion() {
         int[][] newHeatMapStatus = new int[w][h];
-
+        
         for (int x = 1; x < w - 1; x++) {
             for (int y = 1; y < h - 2; y++) {
 
@@ -84,12 +90,14 @@ public class Flame extends BufferedImage implements Runnable {
         for (int x = 0; x < w; x++) {
             for (int y = 0; y < h; y++) {
                 
-                this.setRGB(y, x, flamePalete.getColor(heatMap[x][y]));
-
+                if (heatMap[x][y] == 0) {
+                    this.setRGB(y, x, Color.black.getRGB());
+                } else this.setRGB(y, x, flamePalete.getColor(heatMap[x][y]));
+                
             }
         }
     }
-
+    
     private void fireTick() {
         sparks();
         heatDispersion();

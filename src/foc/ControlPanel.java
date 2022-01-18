@@ -9,28 +9,37 @@ public class ControlPanel extends JPanel{
 
     GridBagConstraints c;
     
-    JButton pauseBtn;
+    MyFlame programa;
+    FlamePalete FP;
     
-    public ControlPanel(MyFlame programa) {
+    JButton pauseBtn;
+    JButton restartBtn;
+    
+    public ControlPanel(MyFlame programa, FlamePalete FP) {
         super(new GridBagLayout());
+        
+        this.programa = programa;
+        this.FP = FP;
         
         this.setPreferredSize(new Dimension(200, 600));
         this.setBackground(Color.gray);
         
                 
-        // PAUSE FUNCTION
+        // PAUSE BUTTON
         pauseBtn = new JButton(); 
-        pauseBtn.setPreferredSize(new Dimension(120, 40)); 
+        pauseBtn.setPreferredSize(new Dimension(80, 40)); 
+        pauseBtn.setFont(new Font("TIMES NEW ROMAN", Font.BOLD, 9));
         pauseBtn.setText("PAUSE");
         pauseBtn.setVisible(true);
+        
         pauseBtn.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 programa.switchPauseState();
                 
                 if ( pauseBtn.getText().equals("PAUSE") ) {
-                    pauseBtn.setText("CONTINUE");
-                } else if ( pauseBtn.getText().equals("CONTINUE") ) {
+                    pauseBtn.setText("PLAY");
+                } else if ( pauseBtn.getText().equals("PLAY") ) {
                     pauseBtn.setText("PAUSE");
                 }
                 
@@ -44,6 +53,28 @@ public class ControlPanel extends JPanel{
          
         this.add(pauseBtn,c);
         
+        // RESTART BUTTON
+        restartBtn = new JButton(); 
+        restartBtn.setPreferredSize(new Dimension(80, 40)); 
+        restartBtn.setFont(new Font("TIMES NEW ROMAN", Font.BOLD, 9));
+        restartBtn.setText("RESTART");
+        restartBtn.setVisible(true);
+        restartBtn.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                
+                programa.restartFlame();
+                
+            }
+        });
+        
+        c = new GridBagConstraints();
+        c.gridx = 2;
+        c.gridy = 0;
+        c.gridheight = 1;
+         
+        this.add(restartBtn,c);
+        
         // ---------------
         
         //SPARKS
@@ -54,6 +85,7 @@ public class ControlPanel extends JPanel{
         c.gridx = 1;
         c.gridy = 1;
         c.gridheight = 1;
+        c.gridwidth = 2;
         
         this.add(sparksLb,c);
         
@@ -73,6 +105,7 @@ public class ControlPanel extends JPanel{
         c.gridx = 1;
         c.gridy = 2;
         c.gridheight = 2;
+        c.gridwidth = 2;
         
         this.add(sparks,c);
      
@@ -80,13 +113,14 @@ public class ControlPanel extends JPanel{
         ///////////////////////
         
         //HEATLOSS
-        JLabel heatLossLb = new JLabel("HeatLoss  (rec: 50)");
+        JLabel heatLossLb = new JLabel("Flame heat loss  (rec: 50)");
         heatLossLb.setPreferredSize(new Dimension(160, 50));
         
         c = new GridBagConstraints();
         c.gridx = 1;
         c.gridy = 4;
         c.gridheight = 1;
+        c.gridwidth = 2;
         
         this.add(heatLossLb,c);
         
@@ -106,52 +140,20 @@ public class ControlPanel extends JPanel{
         c.gridx = 1;
         c.gridy = 5;
         c.gridheight = 2;
+        c.gridwidth = 2;
         
         this.add(heatLoss,c);
         
         
-        ///////////////////////
-        
-        //AIR RESIDUAL HEAT
-        JLabel airHeatConservationLb = new JLabel("Heat duration (rec: 50)");
-        airHeatConservationLb.setPreferredSize(new Dimension(160, 50));
+        //SPEED
+        JLabel msSpedLb = new JLabel("MS entre frames (rec: 20)");
+        msSpedLb.setPreferredSize(new Dimension(160, 50));
         
         c = new GridBagConstraints();
         c.gridx = 1;
         c.gridy = 7;
         c.gridheight = 1;
-        
-        this.add(airHeatConservationLb,c);
-        
-        JSlider residualHeat = new JSlider(JSlider.HORIZONTAL, 1, 100, 50);
-        residualHeat.setPreferredSize(new Dimension(160, 40));
-        residualHeat.setMajorTickSpacing(20);
-        residualHeat.setMinorTickSpacing(10);
-        residualHeat.setPaintTicks(true);
-        residualHeat.setPaintLabels(true);
-        residualHeat.addChangeListener( new ChangeListener() {
-            public void stateChanged(ChangeEvent event) {
-                programa.setAirHeatConservation(residualHeat.getValue());
-            }
-        });
-        c = new GridBagConstraints();
-        c.gridx = 1;
-        c.gridy = 8;
-        c.gridheight = 2;
-        
-        this.add(residualHeat,c);
-        
-        ///////////////////////
-        
-        
-        //SPEED
-        JLabel msSpedLb = new JLabel("MS refresh (rec: 25)");
-        msSpedLb.setPreferredSize(new Dimension(160, 50));
-        
-        c = new GridBagConstraints();
-        c.gridx = 1;
-        c.gridy = 10;
-        c.gridheight = 1;
+        c.gridwidth = 2;
         
         this.add(msSpedLb,c);
         
@@ -168,26 +170,38 @@ public class ControlPanel extends JPanel{
         });
         c = new GridBagConstraints();
         c.gridx = 1;
-        c.gridy = 11;
+        c.gridy = 8;
         c.gridheight = 2;
+        c.gridwidth = 2;
         
         this.add(framesPerSecond,c);
         
+
+        //COLOR PALETE
         
-                
-                        
-//        JButton bttn1 = new JButton();
-//        bttn1.setPreferredSize(new Dimension(160, 40));
-//        bttn1.addActionListener(new ActionListener() {
-//            public void actionPerformed(ActionEvent e) {
-//            programa.switchPauseState();	
-//            }	
-//        });
-//        
-//        
-//        
-//        this.add(bttn1);
         
+        JLabel colorPalete = new JLabel("Color Palete (WIP :-C)");
+        msSpedLb.setPreferredSize(new Dimension(160, 50));
+        
+        c = new GridBagConstraints();
+        c.gridx = 1;
+        c.gridy = 10;
+        c.gridheight = 1;
+        c.gridwidth = 2;
+        
+        this.add(colorPalete,c);
+        
+        FlamePaleteDisplayer fpd = new FlamePaleteDisplayer( this, FP );
+
+        
+        c = new GridBagConstraints();
+        c.gridx = 1;
+        c.gridy = 11;
+        c.gridheight = 1;
+        c.gridwidth = 2;
+        
+        this.add(fpd,c);
+ 
     }
     
 }
