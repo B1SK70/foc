@@ -16,7 +16,6 @@ public class Flame extends BufferedImage implements Runnable {
     //Parametrizables
     private int sparks = 65;
     private double heatLoss = 1.5;
-    private double airHeatConservation = 0.3; 
     private int fireMsSpeed = 25;
     
     public Flame( int w, int h ) {
@@ -53,10 +52,6 @@ public class Flame extends BufferedImage implements Runnable {
         paused = !paused;
     }
     
-    public void setAirHeatConservation (int cnsvtn){
-        airHeatConservation = cnsvtn * 0.01;
-    }
-    
     public void restart() {
         heatMap = new int[w][h];
         updateImage();
@@ -77,9 +72,10 @@ public class Flame extends BufferedImage implements Runnable {
             for (int y = 1; y < h - 2; y++) {
 
                 //IF ( HEAT > 0 )
-                if ((int) ((heatMap[x + 1][y - 1] + heatMap[x + 1][y] + heatMap[x + 1][y + 1] + (heatMap[x][y] * airHeatConservation)) / (3+airHeatConservation) - 1) > 0) {
-                    newHeatMapStatus[x][y] = (int) ((heatMap[x + 1][y - 1] + heatMap[x + 1][y] + heatMap[x + 1][y + 1] + (heatMap[x][y] * airHeatConservation)) / (3+airHeatConservation) -heatLoss);
-                } else  newHeatMapStatus[x][y] = 0;
+                if ((int) ((heatMap[x + 1][y - 1] + heatMap[x + 1][y] + heatMap[x + 1][y + 1] + (heatMap[x][y] * 0.3)) / (3+0.3) - 1) > 0) {
+                    newHeatMapStatus[x][y] = (int) ((heatMap[x + 1][y - 1] + heatMap[x + 1][y] + heatMap[x + 1][y + 1] + (heatMap[x][y] * 0.3)) / (3+0.3) -heatLoss);
+                } 
+                //else  newHeatMapStatus[x][y] = 0;
 
             }
         }

@@ -53,9 +53,9 @@ public class FlamePaleteDisplayer extends JPanel {
 
             //TEMP
             int temp = TCs.get(i).getTemperature();
-            JLabel colorTemp = new JLabel(  String.valueOf(temp) );
+            JLabel colorTemp = new JLabel("  " + String.valueOf(temp) );
             colorTemp.setPreferredSize(new Dimension(40, 35));
-            colorTemp.setForeground(Color.white);
+            colorTemp.setForeground(Color.black);
             
             
             c = new GridBagConstraints();

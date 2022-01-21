@@ -28,7 +28,7 @@ public class ControlPanel extends JPanel{
         // PAUSE BUTTON
         pauseBtn = new JButton(); 
         pauseBtn.setPreferredSize(new Dimension(80, 40)); 
-        pauseBtn.setFont(new Font("TIMES NEW ROMAN", Font.BOLD, 9));
+        pauseBtn.setFont(new Font("SHEIFF SANS", Font.BOLD, 9));
         pauseBtn.setText("PAUSE");
         pauseBtn.setVisible(true);
         
@@ -56,7 +56,7 @@ public class ControlPanel extends JPanel{
         // RESTART BUTTON
         restartBtn = new JButton(); 
         restartBtn.setPreferredSize(new Dimension(80, 40)); 
-        restartBtn.setFont(new Font("TIMES NEW ROMAN", Font.BOLD, 9));
+        restartBtn.setFont(new Font("SHEIFF SANS", Font.BOLD, 9));
         restartBtn.setText("RESTART");
         restartBtn.setVisible(true);
         restartBtn.addActionListener(new ActionListener() {
@@ -197,7 +197,7 @@ public class ControlPanel extends JPanel{
         c = new GridBagConstraints();
         c.gridx = 1;
         c.gridy = 11;
-        c.gridheight = 1;
+        c.gridheight = 2;
         c.gridwidth = 2;
         
         this.add(fpd,c);
