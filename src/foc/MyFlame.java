@@ -60,9 +60,6 @@ public class MyFlame extends JFrame {
         flame.switchPauseState();
     }
     
-    public void setAirHeatConservation(int cnsvtn){
-        flame.setAirHeatConservation(cnsvtn);
-    }
       
     public void restartFlame() {
         flame.restart();

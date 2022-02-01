@@ -37,6 +37,13 @@ public class FlamePalete {
         for (int i = 0; i < targetColors.size() - 1; i++) {
             interpolateColors(targetColors.get(i), targetColors.get(i + 1));
         }
+        
+        for (int colorInt : colors) {
+            Color color = new Color(colorInt);
+            System.out.println(color.getAlpha());
+            
+        }
+        
     }
 
     //Generate generable value

@@ -21,7 +21,7 @@ public class Viewer extends Canvas implements Runnable{
         setSize(w, h);
     }
     
-    public void paint(Graphics g) {        
+    public void paint(Graphics g) {       
         g.drawImage(flame.getFlameImage(),0, 0, null);
     }
     

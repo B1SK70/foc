@@ -4,7 +4,7 @@ import java.awt.Color;
 
 public class TargetColor {
     private int temperature;
-    private Color color;
+    private Color color = new Color(255,255,255,255);
     
     public TargetColor(int temperature, Color color){
         this.temperature = temperature;
