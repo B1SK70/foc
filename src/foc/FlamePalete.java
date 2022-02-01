@@ -30,36 +30,26 @@ public class FlamePalete {
         return targetColors;
     }
 
-    //Call interpolateColors for every fillable interval
     private void createColors() {
         sortTargetColors();
         colors = new int[256];
         for (int i = 0; i < targetColors.size() - 1; i++) {
             interpolateColors(targetColors.get(i), targetColors.get(i + 1));
         }
-        
-        for (int colorInt : colors) {
-            Color color = new Color(colorInt);
-            System.out.println(color.getAlpha());
-            
-        }
-        
     }
 
-    //Generate generable value
     private void interpolateColors(TargetColor from, TargetColor to) {
 
         Color fromColor = from.getColor();
         Color toColor = to.getColor();
 
-        //Starting color
         int[] fromColors = new int[]{
             fromColor.getRed(),
             fromColor.getGreen(),
             fromColor.getBlue(),
             fromColor.getAlpha()
         };
-        //Ending color
+
         int[] toColors = new int[]{
             toColor.getRed(),
             toColor.getGreen(),
@@ -67,17 +57,15 @@ public class FlamePalete {
             toColor.getAlpha()
         };
 
-        //Amount of colors to fill
-        float valuesToFill = from.getTemperature() - to.getTemperature();
+        float valuesToFill = (from.getTemperature() - to.getTemperature()) - 1;
 
-        //Color variation per jump
-        float redVariation = (toColors[0] - fromColors[0]) / valuesToFill;
-        float greenVariation = (toColors[1] - fromColors[1]) / valuesToFill;
-        float blueVariation = (toColors[2] - fromColors[2]) / valuesToFill;
-        float alphaVariation = (toColors[3] - fromColors[3]) / valuesToFill;
+        float redVariation = (fromColors[0] - toColors[0]) / valuesToFill;
+        float greenVariation = (fromColors[1] - toColors[1]) / valuesToFill;
+        float blueVariation = (fromColors[2] - toColors[2]) / valuesToFill;
+        float alphaVariation = (fromColors[3] - toColors[3]) / valuesToFill;
 
         int i = 0;
-        for (int temp = from.getTemperature(); temp > to.getTemperature(); temp--) {
+        for (int temp = from.getTemperature(); temp < to.getTemperature(); temp++) {
             Color newColor = new Color(
                     (int) (fromColors[0] + (redVariation * i)),
                     (int) (fromColors[1] + (greenVariation * i)),
@@ -98,7 +86,7 @@ public class FlamePalete {
         Arrays.sort(temps);
 
         ArrayList<TargetColor> newTargetColors = new ArrayList<TargetColor>();
-        for (int i = temps.length - 1; i >= 0; i--) {
+        for (int i = 0; i < temps.length; i++) {
             for (TargetColor tc : targetColors) {
                 if (tc.getTemperature() == temps[i]) {
                     newTargetColors.add(tc);

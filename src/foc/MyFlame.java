@@ -3,6 +3,10 @@ package foc;
 import java.awt.Color;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
+import javax.imageio.ImageIO;
 import javax.swing.*;
 
 public class MyFlame extends JFrame {
@@ -14,14 +18,16 @@ public class MyFlame extends JFrame {
     private Flame flame;
     private FlamePalete FP = createFlamePalete();
     
-    public MyFlame() {
+    public MyFlame() throws IOException {
         width = 600;
         height = 600;
         
         setWindowParams();
                 
+        File backgroundFile = new File("src/valley.jpg");
+        BufferedImage background = ImageIO.read(backgroundFile);
         
-        flame = new Flame( width, height );
+        flame = new Flame( width, height, background );
         flame.setFlamePalete( FP );
         
                
@@ -77,10 +83,10 @@ public class MyFlame extends JFrame {
     private FlamePalete createFlamePalete() {
         FlamePalete flamePalete = new FlamePalete();
         
-        flamePalete.addTargetColor( new TargetColor(255, new Color(255, 255, 255, 255) ) );
-        flamePalete.addTargetColor( new TargetColor(170, new Color(255, 165, 0, 255) ) );
-        flamePalete.addTargetColor( new TargetColor(90, new Color(255, 0, 0, 255)) );
         flamePalete.addTargetColor( new TargetColor(0, new Color(0, 0, 0, 0)) );
+        flamePalete.addTargetColor( new TargetColor(90, new Color(255, 0, 0, 220)) );
+        flamePalete.addTargetColor( new TargetColor(170, new Color(255, 165, 0, 255) ) );
+        flamePalete.addTargetColor( new TargetColor(255, new Color(255, 255, 255, 255) ) );
         
         return flamePalete;
     }

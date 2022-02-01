@@ -1,6 +1,7 @@
 package foc;
 
 import java.awt.Color;
+import java.awt.Graphics;
 import java.awt.image.BufferedImage;
 import static java.lang.Thread.sleep;
 
@@ -10,6 +11,7 @@ public class Flame extends BufferedImage implements Runnable {
     private int h;
     private int[][] heatMap;
     private FlamePalete flamePalete;
+    private BufferedImage background;
 
     boolean paused = false;
     
@@ -18,10 +20,11 @@ public class Flame extends BufferedImage implements Runnable {
     private double heatLoss = 1.5;
     private int fireMsSpeed = 25;
     
-    public Flame( int w, int h ) {
+    public Flame( int w, int h, BufferedImage background) {
         super(w, h, BufferedImage.TYPE_INT_ARGB);
         this.w = w;
         this.h = h;
+        this.background = background;
                      
         heatMap = new int[w][h];
 
@@ -83,12 +86,19 @@ public class Flame extends BufferedImage implements Runnable {
     }    
 
     private void updateImage() {
+        this.getGraphics().drawImage(background, 0, 0, null);
+        
+        
+        //CREATE BUFFER STRATEGY
+        
         for (int x = 0; x < w; x++) {
             for (int y = 0; y < h; y++) {
                 
-                if (heatMap[x][y] == 0) {
-                    this.setRGB(y, x, Color.black.getRGB());
-                } else this.setRGB(y, x, flamePalete.getColor(heatMap[x][y]));
+                this.setRGB(y, x, flamePalete.getColor(heatMap[x][y]));
+                
+//                if (heatMap[x][y] == 0) {
+//                    this.setRGB(y, x, Color.black.getRGB());
+//                } else this.setRGB(y, x, flamePalete.getColor(heatMap[x][y]));
                 
             }
         }
