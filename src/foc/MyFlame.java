@@ -99,7 +99,7 @@ public class MyFlame extends JFrame {
     
     }
     
-    public static void main(String[] args) {
+    public static void main(String[] args) throws IOException {
         new MyFlame();    
     }
     
