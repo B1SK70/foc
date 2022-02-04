@@ -12,20 +12,24 @@ public class Flame extends BufferedImage implements Runnable {
     private int[][] heatMap;
     private FlamePalete flamePalete;
     private BufferedImage background;
+    private BufferedImage unfinishedFlame;
 
     boolean paused = false;
-    
+
     //Parametrizables
     private int sparks = 65;
     private double heatLoss = 1.5;
     private int fireMsSpeed = 25;
-    
+
     public Flame( int w, int h, BufferedImage background) {
         super(w, h, BufferedImage.TYPE_INT_ARGB);
+        
+        unfinishedFlame = new BufferedImage(w, h, BufferedImage.TYPE_INT_ARGB);
+        
         this.w = w;
         this.h = h;
         this.background = background;
-                     
+
         heatMap = new int[w][h];
 
     }
@@ -33,8 +37,7 @@ public class Flame extends BufferedImage implements Runnable {
     public void setFlamePalete(FlamePalete flamePalete) {
         this.flamePalete = flamePalete;
     }
-    
-    
+
     public BufferedImage getFlameImage() {
         return this;
     }
@@ -42,19 +45,19 @@ public class Flame extends BufferedImage implements Runnable {
     public void setFireMsSpeed(int ms){
         fireMsSpeed = ms;
     }
-    
+
     public void setHeatLoss(int hl){
         heatLoss = hl * 0.025 ;
     }
-    
+
     public void setSparks(int sprks){
         sparks = sprks;
     }
-    
+
     public void switchPauseState() {
         paused = !paused;
     }
-    
+
     public void restart() {
         heatMap = new int[w][h];
         updateImage();
@@ -70,40 +73,34 @@ public class Flame extends BufferedImage implements Runnable {
 
     private void heatDispersion() {
         int[][] newHeatMapStatus = new int[w][h];
-        
+
         for (int x = 1; x < w - 1; x++) {
             for (int y = 1; y < h - 2; y++) {
 
                 //IF ( HEAT > 0 )
                 if ((int) ((heatMap[x + 1][y - 1] + heatMap[x + 1][y] + heatMap[x + 1][y + 1] + (heatMap[x][y] * 0.3)) / (3+0.3) - 1) > 0) {
                     newHeatMapStatus[x][y] = (int) ((heatMap[x + 1][y - 1] + heatMap[x + 1][y] + heatMap[x + 1][y + 1] + (heatMap[x][y] * 0.3)) / (3+0.3) -heatLoss);
-                } 
+                }
                 //else  newHeatMapStatus[x][y] = 0;
 
             }
         }
         heatMap = newHeatMapStatus;
-    }    
+    }
 
     private void updateImage() {
-        this.getGraphics().drawImage(background, 0, 0, null);
-        
-        
-        //CREATE BUFFER STRATEGY
-        
+
+            unfinishedFlame.getGraphics().drawImage(background, 0, 0, null);
+
         for (int x = 0; x < w; x++) {
             for (int y = 0; y < h; y++) {
-                
-                this.setRGB(y, x, flamePalete.getColor(heatMap[x][y]));
-                
-//                if (heatMap[x][y] == 0) {
-//                    this.setRGB(y, x, Color.black.getRGB());
-//                } else this.setRGB(y, x, flamePalete.getColor(heatMap[x][y]));
-                
+                unfinishedFlame.setRGB(y, x, flamePalete.getColor(heatMap[x][y]));
             }
         }
+
+        this.getGraphics().drawImage(unfinishedFlame, 0, 0, null);
     }
-    
+
     private void fireTick() {
         sparks();
         heatDispersion();
@@ -113,9 +110,9 @@ public class Flame extends BufferedImage implements Runnable {
     @Override
     public void run() {
         while (true) {
-            
+
             if (!paused) fireTick();
-                    
+
             try {
                 sleep(fireMsSpeed);
             } catch (Exception e) {
