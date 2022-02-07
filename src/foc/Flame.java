@@ -21,11 +21,11 @@ public class Flame extends BufferedImage implements Runnable {
     private double heatLoss = 1.5;
     private int fireMsSpeed = 25;
 
-    public Flame( int w, int h, BufferedImage background) {
+    public Flame(int w, int h, BufferedImage background) {
         super(w, h, BufferedImage.TYPE_INT_ARGB);
-        
+
         unfinishedFlame = new BufferedImage(w, h, BufferedImage.TYPE_INT_ARGB);
-        
+
         this.w = w;
         this.h = h;
         this.background = background;
@@ -42,15 +42,15 @@ public class Flame extends BufferedImage implements Runnable {
         return this;
     }
 
-    public void setFireMsSpeed(int ms){
+    public void setFireMsSpeed(int ms) {
         fireMsSpeed = ms;
     }
 
-    public void setHeatLoss(int hl){
-        heatLoss = hl * 0.025 ;
+    public void setHeatLoss(int hl) {
+        heatLoss = hl * 0.025;
     }
 
-    public void setSparks(int sprks){
+    public void setSparks(int sprks) {
         sparks = sprks;
     }
 
@@ -78,10 +78,9 @@ public class Flame extends BufferedImage implements Runnable {
             for (int y = 1; y < h - 2; y++) {
 
                 //IF ( HEAT > 0 )
-                if ((int) ((heatMap[x + 1][y - 1] + heatMap[x + 1][y] + heatMap[x + 1][y + 1] + (heatMap[x][y] * 0.3)) / (3+0.3) - 1) > 0) {
-                    newHeatMapStatus[x][y] = (int) ((heatMap[x + 1][y - 1] + heatMap[x + 1][y] + heatMap[x + 1][y + 1] + (heatMap[x][y] * 0.3)) / (3+0.3) -heatLoss);
+                if ((int) ((heatMap[x + 1][y - 1] + heatMap[x + 1][y] + heatMap[x + 1][y + 1] + (heatMap[x][y] * 0.3)) / (3 + 0.3) - 1) > 0) {
+                    newHeatMapStatus[x][y] = (int) ((heatMap[x + 1][y - 1] + heatMap[x + 1][y] + heatMap[x + 1][y + 1] + (heatMap[x][y] * 0.3)) / (3 + 0.3) - heatLoss);
                 }
-                //else  newHeatMapStatus[x][y] = 0;
 
             }
         }
@@ -94,12 +93,15 @@ public class Flame extends BufferedImage implements Runnable {
 
         for (int x = 0; x < w; x++) {
             for (int y = 0; y < h; y++) {
-                unfinishedFlame.setRGB(y, x, flamePalete.getColor(heatMap[x][y]));
+
+                if (heatMap[x][y] != 0) {
+                    unfinishedFlame.setRGB(y, x, flamePalete.getColor(heatMap[x][y]));
+                }
             }
         }
 
-        Graphics g = this.getGraphics();
-        g = unfinishedFlame.getGraphics();
+        this.getGraphics().drawImage(unfinishedFlame, 0, 0, null);
+
     }
 
     private void fireTick() {
@@ -112,7 +114,9 @@ public class Flame extends BufferedImage implements Runnable {
     public void run() {
         while (true) {
 
-            if (!paused) fireTick();
+            if (!paused) {
+                fireTick();
+            }
 
             try {
                 sleep(fireMsSpeed);

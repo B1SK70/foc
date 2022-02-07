@@ -45,7 +45,6 @@ public class Viewer extends Canvas implements Runnable {
         try {
             Thread.sleep(200);
         } catch (InterruptedException ex) {
-
         }
         createBufferStrategy(2);
 
