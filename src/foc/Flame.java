@@ -90,7 +90,7 @@ public class Flame extends BufferedImage implements Runnable {
 
     private void updateImage() {
 
-            unfinishedFlame.getGraphics().drawImage(background, 0, 0, null);
+        unfinishedFlame.getGraphics().drawImage(background, 0, 0, null);
 
         for (int x = 0; x < w; x++) {
             for (int y = 0; y < h; y++) {
@@ -98,7 +98,8 @@ public class Flame extends BufferedImage implements Runnable {
             }
         }
 
-        this.getGraphics().drawImage(unfinishedFlame, 0, 0, null);
+        Graphics g = this.getGraphics();
+        g = unfinishedFlame.getGraphics();
     }
 
     private void fireTick() {
