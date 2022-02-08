@@ -23,8 +23,12 @@ public class MyFlame extends JFrame {
         height = 600;
         
         setWindowParams();
-                
-        File backgroundFile = new File("src/valley.jpg");
+        
+        //valley.jpg
+        //edificios.jpg
+        //obito.jpg
+        //sailorMoon.png
+        File backgroundFile = new File("src/edificios.jpg");
         BufferedImage background = ImageIO.read(backgroundFile);
         
         flame = new Flame( width, height, background );
@@ -84,9 +88,9 @@ public class MyFlame extends JFrame {
         FlamePalete flamePalete = new FlamePalete();
         
         flamePalete.addTargetColor( new TargetColor(0, new Color(0, 0, 0, 0)) );
-        flamePalete.addTargetColor( new TargetColor(90, new Color(255, 0, 0, 220)) );
-        flamePalete.addTargetColor( new TargetColor(170, new Color(255, 165, 0, 255) ) );
-        flamePalete.addTargetColor( new TargetColor(255, new Color(255, 255, 255, 255) ) );
+        flamePalete.addTargetColor( new TargetColor(90, new Color(255, 0, 0, 100)) );
+        flamePalete.addTargetColor( new TargetColor(170, new Color(255, 165, 0, 80) ) );
+        flamePalete.addTargetColor( new TargetColor(255, new Color(255, 255, 255, 200) ) );
         
         return flamePalete;
     }

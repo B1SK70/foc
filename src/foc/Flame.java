@@ -4,6 +4,7 @@ import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.image.BufferedImage;
 import static java.lang.Thread.sleep;
+import java.util.ArrayList;
 
 public class Flame extends BufferedImage implements Runnable {
 
@@ -13,6 +14,8 @@ public class Flame extends BufferedImage implements Runnable {
     private FlamePalete flamePalete;
     private BufferedImage background;
     private BufferedImage unfinishedFlame;
+    private ArrayList<String> flamables;
+    private boolean backgroundShapeDetected = false;
 
     boolean paused = false;
 
@@ -25,6 +28,11 @@ public class Flame extends BufferedImage implements Runnable {
         super(w, h, BufferedImage.TYPE_INT_ARGB);
 
         unfinishedFlame = new BufferedImage(w, h, BufferedImage.TYPE_INT_ARGB);
+
+        flamables = new Convolution(background).getFlamables(70);
+        if (flamables.size() > 0) {
+            backgroundShapeDetected = true;
+        }
 
         this.w = w;
         this.h = h;
@@ -64,9 +72,18 @@ public class Flame extends BufferedImage implements Runnable {
     }
 
     private void sparks() {
-        for (int x = 0; x < w; x++) {
-            if (((int) (Math.random() * 100 + 1)) < sparks) {
-                heatMap[h - 1][x] = 255;
+        if (backgroundShapeDetected) {
+            for (String flamable : flamables) {
+                if (((int) (Math.random() * 100 + 1)) < sparks) {
+                    String coords[] = flamable.split("_");
+                    heatMap[Integer.parseInt(coords[1])][Integer.parseInt(coords[0])] = 255;
+                }
+            }
+        } else {
+            for (int x = 0; x < w; x++) {
+                if (((int) (Math.random() * 100 + 1)) < sparks) {
+                    heatMap[h - 1][x] = 255;
+                }
             }
         }
     }

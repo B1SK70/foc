@@ -180,7 +180,7 @@ public class ControlPanel extends JPanel{
         //COLOR PALETE
         
         
-        JLabel colorPalete = new JLabel("Color Palete (WIP :-C)");
+        JLabel colorPalete = new JLabel("Color Palete");
         msSpedLb.setPreferredSize(new Dimension(160, 50));
         
         c = new GridBagConstraints();

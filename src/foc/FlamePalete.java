@@ -96,4 +96,8 @@ public class FlamePalete {
         }
         targetColors = newTargetColors;
     }
+    
+    public void reload() {
+        createColors();
+    }
 }

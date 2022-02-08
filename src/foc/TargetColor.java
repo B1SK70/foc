@@ -18,4 +18,10 @@ public class TargetColor {
     public Color getColor() {
         return color;
     }
+    
+    @Override
+    public String toString() {
+    
+        return temperature + ": " + color;
+    }
 }
